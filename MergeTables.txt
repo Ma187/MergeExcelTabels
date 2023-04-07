@@ -1,0 +1,36 @@
+Sub MergeTables()
+    Dim wsA As Worksheet, wsB As Worksheet, wsC As Worksheet, wsD As Worksheet
+    Dim i As Long, j As Long, k As Long
+    
+    '获取工作表对象
+    Set wsA = Worksheets("A")
+    Set wsB = Worksheets("B")
+    Set wsC = Worksheets("C")
+    Set wsD = Worksheets.Add
+    
+    '设置表头
+    wsA.Range("A1").EntireRow.Copy Destination:=wsD.Range("A1")
+    
+    '循环插入数据
+    j = 1
+    For i = 2 To wsA.Cells(Rows.Count, 1).End(xlUp).Row
+        wsD.Cells(j + 1, 1).Resize(1, wsA.Cells(i, Columns.Count).End(xlToLeft).Column).Value = wsA.Cells(i, 1).Resize(1, wsA.Cells(i, Columns.Count).End(xlToLeft).Column).Value
+        j = j + 3
+    Next i
+    
+    j = 2
+    For i = 2 To wsB.Cells(Rows.Count, 1).End(xlUp).Row
+        wsD.Cells(j + 1, 1).Resize(1, wsB.Cells(i, Columns.Count).End(xlToLeft).Column).Value = wsB.Cells(i, 1).Resize(1, wsB.Cells(i, Columns.Count).End(xlToLeft).Column).Value
+        j = j + 3
+    Next i
+    
+    j = 3
+    For i = 2 To wsC.Cells(Rows.Count, 1).End(xlUp).Row
+        wsD.Cells(j + 1, 1).Resize(1, wsC.Cells(i, Columns.Count).End(xlToLeft).Column).Value = wsC.Cells(i, 1).Resize(1, wsC.Cells(i, Columns.Count).End(xlToLeft).Column).Value
+        j = j + 3
+    Next i
+    
+    '自动调整列宽
+    wsD.Cells.EntireColumn.AutoFit
+End Sub
+
